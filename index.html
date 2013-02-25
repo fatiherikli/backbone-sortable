@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Backbone Widgets</title>
+    <link rel="stylesheet" href="src/backbone.sortable.css" />
+    <style type="text/css">
+        body {
+            margin: 0 0 120px;
+            font-family: helvetica, sans-serif;
+            font-size: 25px;
+        }
+
+        input {
+            font-size: 17px;
+            padding: 3px;
+            margin: 0;
+            outline: none;
+        }
+
+        header {
+            margin: 0;
+            border-bottom: 1px solid #e4e4e4;
+            padding: 50px 50px 20px;
+        }
+
+        header h1 {
+            color: #ff813d;
+        }
+
+        header h2 {
+            color: #565656;
+            font-size: 29px;
+            font-weight: normal;
+        }
+
+        header h1, header h2, section {
+            width: 890px;
+            margin: auto;
+        }
+
+        section {
+            overflow: hidden;
+        }
+
+        section h3 {
+            color: #424242;
+            margin: 30px 0 10px;
+        }
+
+        section h4 {
+            font-size: 20px;
+            margin: 0;
+            color: #424242;
+            padding: 0;
+        }
+
+        section p {
+            margin: 5px 0;
+            font-size: 18px;
+            color: #525252;
+        }
+
+        section form input {
+            width: 350px;
+            font-size: 20px;
+            padding: 10px;
+        }
+
+        #example, #selected {
+            float: left;
+            margin-right: 55px;
+        }
+
+        #selected {
+            display: none;
+            margin: 0;
+        }
+
+        #selected p {
+            margin: 0;
+            width: 430px;
+            padding: 10px;
+            background-color: #fafafa;
+            color: #404040;
+        }
+
+        p em {
+            background-color: #f6f2f4;
+            font-style: normal;
+            padding: 1px 4px;
+            border-radius: 1px;
+        }
+
+        pre {
+            font-size: 20px;
+            background-color: #fcfcfc;
+            padding: 10px;
+            color: #666666;
+            border: 1px solid #e8e8e8;
+            line-height: 29px;
+        }
+
+        table {
+            width: 100%;
+            font-size: 18px;
+            border: 1px solid #e8e8e8;
+        }
+
+        table th {
+            padding: 10px;
+            color: #515151;
+            font-weight: bold;
+        }
+
+        table td {
+            padding: 10px;
+            color: #515151;
+        }
+
+        p a {
+            color: #4b4b4b;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        #contribution p {
+            padding: 20px;
+            border: 1px solid #e9e9e9;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Backbone.SortableView</h1>
+    <h2>A widget that allows sorting models on the collection</h2>
+</header>
+<section>
+    <h3>Example</h3>
+    <div id="example"></div>
+</section>
+
+<section>
+    <h3>Usage</h3>
+    <p>Create a model that contains ordering field</p>
+    <pre>
+var Song = Backbone.Model.extend({
+    defaults: {
+        trackNumber: 1
+    }
+});</pre>
+    <p>Define the comparator method on your collection. You can look to the official backbone documentation for detailed information about
+        <a href="http://backbonejs.org/#Collection-comparator">comparator</a> method. </p>
+        <pre>
+var Album = Backbone.Collection.extend({
+      model: Song,
+      comparator: function (model) {
+          return model.get("trackNumber")
+      }
+});</pre>
+    <p>And initialize the SortableView in your view.</p>
+<pre>
+new SortableView({
+    model: album,
+    orderField: "trackNumber",
+    itemTemplate: "<%= name %>"
+}).render()</pre>
+<p>The `render` method will be returned unattached DOM element.</p>
+</section>
+
+<section>
+    <h3>Configuration</h3>
+    <table>
+        <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>orderField</td>
+            <td>string</td>
+            <td>order</td>
+            <td>The ordering field of your model.</td>
+        </tr>
+        <tr>
+            <td>itemTemplate</td>
+            <td>string</td>
+            <td>Empty string</td>
+            <td>Sortable item template.</td>
+        </tr>
+        <tr>
+            <td>overClass</td>
+            <td>string</td>
+            <td>over</td>
+            <td>The class name of the of over state of sortable items</td>
+        </tr>
+    </table>
+</section>
+
+<section id="contribution">
+    <h3>Contribution</h3>
+    <p><a href="https://github.com/fatiherikli/backbone-sortable">https://github.com/fatiherikli/backbone-sortable</a></p>
+</section>
+
+
+<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="//underscorejs.org/underscore-min.js"></script>
+<script type="text/javascript" src="//backbonejs.org/backbone-min.js"></script>
+<script type="text/javascript" src="src/backbone.sortable.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+          var Song = Backbone.Model.extend();
+          var Album = Backbone.Collection.extend({
+              model: Song,
+              comparator: function (model) {
+                  return model.get("trackNumber")
+              }
+          });
+
+          var album = new Album([
+              {"trackNumber": 3, "name": "Nimrodel/The process..."},
+              {"trackNumber": 5, "name": "Lady Fantasy"},
+              {"trackNumber": 1, "name": "Freefall"},
+              {"trackNumber": 2, "name": "Supertwister"},
+              {"trackNumber": 4, "name": "Earthrise"}
+          ]);
+
+          $("#example").append(new SortableView({
+              className: "sortable",
+              model: album,
+              orderField: "trackNumber",
+              itemTemplate: "<%= name %>"
+          }).render().el);
+
+    });
+</script>
+</body>
+</html>

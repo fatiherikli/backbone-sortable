@@ -1,0 +1,24 @@
+ul.sortable {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+}
+
+    ul.sortable li {
+        list-style: none;
+        background-color: #f8f8f8;
+        margin: 0;
+        padding: 5px 7px;
+        border: 1px solid #dbdbdb;
+        border-bottom: none;
+        font-size: 17px;
+        cursor: move;
+    }
+
+    ul.sortable li:last-child {
+        border-bottom: 1px solid #dbdbdb;
+    }
+
+    ul.sortable li.over {
+        background-color: yellow;
+    }
