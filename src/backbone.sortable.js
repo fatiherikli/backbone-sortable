@@ -42,12 +42,10 @@ var SortableItemView = Backbone.View.extend({
     drop: function () {
         this.leave();
         var collection = this.parent.model;
-        var dragged = collection.models.pop(this.parent.draggedModel);
-        collection.models.splice(this.$el.index(), 0, dragged);
+        collection.models.splice(collection.indexOf(this.parent.draggedModel), 1);
+        collection.models.splice(this.$el.index(), 0, this.parent.draggedModel);
         _.forEach(collection.models, function (model, index) {
-            model.set(this.orderField, index+1, {
-                silent: true
-            });
+            model.set(this.orderField, index+1, {silent: true});
         }, this);
         collection.trigger("change");
     }
