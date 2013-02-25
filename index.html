@@ -159,6 +159,14 @@ var Album = Backbone.Collection.extend({
           return model.get("trackNumber")
       }
 });</pre>
+<p>Here is the example collection:</p>
+<pre>var album = new Album([
+    {"trackNumber": 1, "name": "Freefall"},
+    {"trackNumber": 2, "name": "Supertwister"},
+    {"trackNumber": 3, "name": "Nimrodel/The process..."},
+    {"trackNumber": 4, "name": "Earthrise"},
+    {"trackNumber": 5, "name": "Lady Fantasy"}
+]);</pre>
     <p>And initialize the SortableView in your view.</p>
 <pre>
 new SortableView({
